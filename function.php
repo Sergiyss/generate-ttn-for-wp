@@ -1,17 +1,5 @@
 <?php 
 
-$messages = array(
-	'success' => 'Дані успішно записані',
-	'warning' => 'Что-то пошло не так',
-	'empty' => 'Нет данных',
-);
-
-$status = array(
-	'success' => 'success',
-	'error' => 'error',
-);
-
-
 function getNameTable($wpdb){
 	return $wpdb->prefix . 'history_generate_ttn';
 }
@@ -46,37 +34,80 @@ function createTable(){
  * @param orders => список ид заказов
  * @param linkGenerateTTN => ссылка на генерацию накладных
  * */
-function insert_data_dase(){
+function insert_data_base(){
 	global $wpdb;
 
 
-	$orders = $_POST['orders'];
-	$linkGenerateTTN = $_POST['link_generate_ttn'];
-
+	$orders_json_ids = $_POST['order_ids'];
+	$linkGenerateTTN = $_POST['order_ttn_refs'];
+	
+	
+		
 	$history_data = array(
-		'order_number' => $orders,
+		'order_number' => $orders_json_ids,
 		'order_link' => $linkGenerateTTN,
 	    'order_date' => date('Y-m-d') // Текущая дата
 	);
 
-	$table_name = $table_name = getNameTable($wpdb);;
+	$table_name = $table_name = getNameTable($wpdb);
 
 	$wpdb->insert($table_name, $history_data);
 
 	// Проверка на ошибки при вставке
 	if ( ! empty( $wpdb->last_error ) ) {
-		echo 'Ошибка при вставке данных: ' . $wpdb->last_error;
+		// $response = array('status' => 'error', 'message' => '0', 'data' => 'Ошибка при вставке данных');
+    	// wp_send_json($response);
+
+    	$response = array('status' => 'error', 'message' => 0, 'data' => 'Ошибка при вставке данных');
+    	echo json_encode($response);
 	} else {
-		echo 'Данные успешно вставлены в базу данных.';
+		$response = array('status' => 'success', 'message' => '0', 'data' => 'success');
+    	wp_send_json($response);
 	}
-
-
-    $response = array('status' => $status['success'], 'message' => '0', 'data' => $messages['success']);
-    wp_send_json($response);
 
 	wp_die();
 }
-add_action('wp_ajax_get_change_insert_data_dase', 'insert_data_dase'); // Зарегистрированные пользователи
-add_action('wp_ajax_nopriv_get_change_insert_data_dase', 'insert_data_dase'); // Неавторизованные пользователи
+add_action('wp_ajax_insert_data_base', 'insert_data_base'); // Зарегистрированные пользователи
+add_action('wp_ajax_nopriv_insert_data_base', 'insert_data_base'); // Неавторизованные пользователи
+
+
+
+function get_all_histoty_generate_ttn(){
+	global $wpdb;
+
+	// Название таблицы с учетом префикса WordPress
+	$table_name = $table_name = getNameTable($wpdb);
+
+	// Выбор всех данных из таблицы
+	$results = $wpdb->get_results( "SELECT * FROM $table_name", ARRAY_A );
+
+	// Проверка на наличие результатов
+	if ( $results ) {
+		$history_data = array(); 
+	    
+	    foreach ( $results as $row ) {
+	       
+	        $history_data[] = array(
+                'ID' => $row['id'],
+                'order_number' => $row['order_number'], // Преобразуем строку JSON в массив
+                'order_link'   => $row['order_link'],   // Преобразуем строку JSON в массив
+                'order_date'   => $row['order_date'],
+            );
+	    }
+
+	    $response = array('status' => 'success', 'message' => $id, 'data' => $history_data);
+    	echo json_encode($response);
+	} else {
+	    $response = array('status' => 'error', 'message' => $id, 'data' => 'Данные не найдены.');
+    	echo json_encode($response);
+	}
+
+	wp_die();
+}
+
+
+add_action('wp_ajax_get_all_histoty_generate_ttn', 'get_all_histoty_generate_ttn'); // Зарегистрированные пользователи
+add_action('wp_ajax_nopriv_get_all_histoty_generate_ttn', 'get_all_histoty_generate_ttn'); // Неавторизованные пользователи
+
 
 ?>

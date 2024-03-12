@@ -5,7 +5,7 @@ Description: Плагін управління замовленнями Ново
 Version: 1.0
 Author: Krainik Serhii
 */
-include 'function.php'
+include 'function.php';
 include 'backend/GetWooOrders.php';
 include 'tabs/Settings.php';
 
