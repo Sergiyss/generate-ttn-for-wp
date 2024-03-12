@@ -1,0 +1,425 @@
+.descript ul {
+    padding-bottom: 20px;
+}
+
+.descript ul li {
+    list-style-type: upper-roman;
+    font-size: 12px;
+    padding-top: 4px;
+    font-family: sans-serif;
+    /* list-style-type: auto; */
+}
+
+.desc_text{
+    font-size: 20px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-family: sans-serif;
+    font-weight: 900;
+    color: #737373;
+}
+
+.form_style {
+    height: 25px;
+    font-size: 12px;
+    font-family: sans-serif;
+    border: 2px solid #ff0000;
+    border-radius: 6px;
+}
+
+
+.decs_input_text {
+    font-size: 14px;
+    padding-bottom: 4px;
+    color: black;
+    font-family: cursive;
+    font-weight: 600;
+    max-width: 50%;
+}
+
+
+.header_r.r_row {
+    float: right;
+    display: flex;
+}
+
+
+.udpdate_order_statys{
+    background: #7CB342;
+}
+
+button.print_btn {
+    background: #209cee;
+}
+
+
+.header_r.r_row button {
+    height: 50px;
+    border-radius: 10px;
+    width: 150px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 0px solid;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Добавляем плавный переход для box-shadow */
+    margin-right: 20px;
+}
+
+.header_r.r_row button  p {
+    color: white;
+    /* font-size: 16px; */
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.ttn_code {
+    font-size: x-large;
+    font-family: sans-serif;
+    font-weight: 700;
+    padding-top: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.other_settings_block,
+.descript {
+    display: block; /* По умолчанию показываем элемент */
+    transition: opacity 0.5s ease; /* Добавляем transition для свойства opacity */
+    opacity: 1; /* Устанавливаем начальное значение непрозрачности */
+}
+.other_settings_block.hidden,
+.descript.hidden {
+    pointer-events: none; /* Делаем элемент недоступным для взаимодействия */
+    opacity: 0; /* При скрытии элемента делаем его непрозрачным */
+    display: none; /* По умолчанию показываем элемент */
+}
+
+
+.box {
+    position: fixed; /* Фиксированное позиционирование */
+    top: 50%; /* Располагаем блок на 50% высоты экрана */
+    left: 50%; /* Располагаем блок на 50% ширины экрана */
+    transform: translate(-50%, -50%); /* Смещаем блок на половину его ширины и высоты назад */
+
+    z-index: 99999;
+    width: 200px;
+    height: 200px;
+}
+
+.loader {
+  margin: 100px auto;
+  font-size: 25px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  display: none;
+  -webkit-animation: load5 1.1s infinite ease;
+  animation: load5 1.1s infinite ease;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+@-webkit-keyframes load5 {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #d50707, 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.5), -1.8em -1.8em 0 0em rgba(213,7,7, 0.7);
+}
+12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.7), 1.8em -1.8em 0 0em #d50707, 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.5);
+}
+25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.5), 1.8em -1.8em 0 0em rgba(213,7,7, 0.7), 2.5em 0em 0 0em #d50707, 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.5), 2.5em 0em 0 0em rgba(213,7,7, 0.7), 1.75em 1.75em 0 0em #d50707, 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.5), 1.75em 1.75em 0 0em rgba(213,7,7, 0.7), 0em 2.5em 0 0em #d50707, -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.5), 0em 2.5em 0 0em rgba(213,7,7, 0.7), -1.8em 1.8em 0 0em #d50707, -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.5), -1.8em 1.8em 0 0em rgba(213,7,7, 0.7), -2.6em 0em 0 0em #d50707, -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.5), -2.6em 0em 0 0em rgba(213,7,7, 0.7), -1.8em -1.8em 0 0em #d50707;
+}
+}
+@keyframes load5 {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #d50707, 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.5), -1.8em -1.8em 0 0em rgba(213,7,7, 0.7);
+}
+12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.7), 1.8em -1.8em 0 0em #d50707, 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.5);
+}
+25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.5), 1.8em -1.8em 0 0em rgba(213,7,7, 0.7), 2.5em 0em 0 0em #d50707, 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.5), 2.5em 0em 0 0em rgba(213,7,7, 0.7), 1.75em 1.75em 0 0em #d50707, 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.5), 1.75em 1.75em 0 0em rgba(213,7,7, 0.7), 0em 2.5em 0 0em #d50707, -1.8em 1.8em 0 0em rgba(213,7,7, 0.2), -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.5), 0em 2.5em 0 0em rgba(213,7,7, 0.7), -1.8em 1.8em 0 0em #d50707, -2.6em 0em 0 0em rgba(213,7,7, 0.2), -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.5), -1.8em 1.8em 0 0em rgba(213,7,7, 0.7), -2.6em 0em 0 0em #d50707, -1.8em -1.8em 0 0em rgba(213,7,7, 0.2);
+}
+87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(213,7,7, 0.2), 1.8em -1.8em 0 0em rgba(213,7,7, 0.2), 2.5em 0em 0 0em rgba(213,7,7, 0.2), 1.75em 1.75em 0 0em rgba(213,7,7, 0.2), 0em 2.5em 0 0em rgba(213,7,7, 0.2), -1.8em 1.8em 0 0em rgba(213,7,7, 0.5), -2.6em 0em 0 0em rgba(213,7,7, 0.7), -1.8em -1.8em 0 0em #d50707;
+}
+}
+
+
+.success {
+    height: 16px;
+    width: 16px;
+    background: #15d715;
+    border-radius: 50px;
+    margin-left: 10px;
+}
+
+
+.error {
+    height: 16px;
+    width: 16px;
+    background: #ff0000;
+    border-radius: 50px;
+    margin-left: 10px;
+}
+
+.orders {
+    margin-top: 100px;
+}
+
+.header {
+    background-color: #333333bf;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed;
+    top: 10px; /* Скрыть заголовок при инициализации страницы */
+    left: 0;
+    width: 100%;
+    transition: top 0.3s; /* Добавить плавное появление/скрытие */
+}
+
+div#header {
+    z-index: 777;
+}
+.header_r {
+    padding-top: 35px;
+}
+
+
+a.tab_settings {
+    color: white;
+    font-weight: 700;
+}
+
+
+.send_generate_ttn{
+    background: #ff0000;
+}
+
+
+a.tab_settings {
+    buffered-rendering: azure;
+    background: #1d2327;
+}
+
+.tab_settings,
+.send_generate_ttn {
+    height: 50px;
+    border-radius: 10px;
+    width: 150px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    cursor: pointer;
+    box-shadow: box-shadow: 1px 1px 8px 5px #a50f0f;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Добавляем плавный переход для box-shadow */
+}
+.tab_settings a,
+.send_generate_ttn p {
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.content {
+    padding-top: 50px; /* Добавить верхний отступ для контента, чтобы избежать перекрытия заголовка */
+}
+
+
+.row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+.card {
+    box-shadow: 11px 13px 0px 0px #ff000099;
+    border: 2px solid #ff0000;
+    border-radius: 16px;
+    width: 30%;
+}
+
+@media only screen and (max-width: 768px) {
+    .card {
+        width: 98%;
+    }
+}
+
+.pl_address {
+    padding-top: 10px;
+}
+
+.order_numbe {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.orders {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.orders > * {
+    margin-right: 20px; /* Здесь указывается размер отступа, например, 10 пикселей */
+}
+
+.orders > *:last-child {
+    margin-right: 0; /* Убедитесь, что последний элемент не имеет правого отступа */
+}
+
+.phone,
+.first_last_name {
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+
+
+
+
+
+.placeholder {
+    font-family: cursive;
+    font-weight: 600;
+    padding-right: 6px;
+
+}
+
+
+.product_list ul {
+    list-style: none; /* Убираем стандартные маркеры списка */
+    padding-left: 0; /* Убираем отступ слева для списка */
+}
+
+.product_list ul li {
+    margin-bottom: 6px;
+    font-family: sans-serif;
+    color: #770000;
+    position: relative; /* Обязательно нужно для позиционирования псевдоэлемента */
+    padding-left: 20px; /* Добавляем отступ слева для смайлика */
+}
+
+.product_list ul li::before {
+    content: '🛒'; /* Устанавливаем смайлик в качестве содержимого псевдоэлемента */
+    position: absolute; /* Позиционируем смайлик */
+    left: 0; /* Позиция смайлика относительно левого края */
+}
+
+.t_weight::before {
+    content: '🏋️'; /* Устанавливаем смайлик в качестве содержимого псевдоэлемента */
+}
+.t_price::before {
+    content: '🪙'; /* Устанавливаем смайлик в качестве содержимого псевдоэлемента */
+}
+
+
+
+.image_svg svg{
+    width: 32px;
+    height: auto;
+}
+
+.product_list h3,
+.recipient h3,
+.order_numbe h2 {
+    font-family: cursive;
+    font-weight: 100;
+}
+input#product_description,
+input#note_for_order,
+input#price,
+input#volumetric_volume,
+input#weight {
+    border: 2px solid #ff0000;
+    border-radius: 6px;
+}
+
+.weight.colums_np {
+    padding-right: 16px;
+    padding-top: 10px;
+}
+
+
+.t_price,
+.t_weight {
+    font-family: cursive;
+    font-weight: 500;
+    color: #494949;
+    font-size: 16px;
+}
+
+
+
+.toast {
+    height: 26px;
+    margin-right: 10px;
+}
+
+.icon {
+    color: #fff;
+    font-size: 0.8rem;
+}
+
+.icon svg {
+    width: 100%;
+}
+
+ol {
+    padding-left: 15px;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+}
+
+footer img {
+    width: 150px;
+}
