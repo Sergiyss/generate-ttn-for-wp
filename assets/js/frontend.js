@@ -7,11 +7,11 @@ const types = [
     'is-danger',
     ]
 
-const DocumentRefs = ['123123', '123123', '123123']; //После создания ттнки, приходит его ферка и инт документ.
+const DocumentRefs = []; //После создания ттнки, приходит его ферка и инт документ.
 
 const IntDocNumbers = [];
 
-const OrderSuccess = ['12', '34', '54']; //Те заказы, которые отработали на 200
+const OrderSuccess = []; //Те заказы, которые отработали на 200
 
 
 // Находим элемент с id "send_generate_ttn"
@@ -43,6 +43,8 @@ function create_ttn(){
     var cards = document.querySelectorAll('.orders .card');
 
     cards.forEach(function(card, index) {
+
+        console.log('INDEX'+index);
 
       // Получаем данные из каждого элемента "card"
         var id = card.id;
@@ -132,28 +134,28 @@ function create_ttn(){
                       insertTTN(jsonObject.message, jsonObject.data);
                       displayToast('Замовлення #'+jsonObject.message+': Створено', 'Bottom Left', types[3])
                   }else{
-                   setInditificatorSuccess(jsonObject.message, false);
+                     setInditificatorSuccess(jsonObject.message, false);
 
-                   jsonObject.data['errors'].forEach((item, index) => {
+                     jsonObject.data['errors'].forEach((item, index) => {
 
-                    displayToast('Замовлення #'+jsonObject.message+': '+item, 'Bottom Left', types[5])
-                });
+                        displayToast('Замовлення #'+jsonObject.message+': '+item, 'Bottom Left', types[5])
+                    });
 
 
-               }
+                 }
 
-               if (index === cards.length) { hideLoader();}
-           } else {
-            console.error('Ошибка при отправке данных. Статус: ' + xhr.status);
+                 if (index === cards.length) { hideLoader();}
+             } else {
+                console.error('Ошибка при отправке данных. Статус: ' + xhr.status);
+                if (index === cards.length) { hideLoader();}
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Ошибка при отправке данных');
             if (index === cards.length) { hideLoader();}
-        }
-    };
-    xhr.onerror = function() {
-        console.error('Ошибка при отправке данных');
-        if (index === cards.length) { hideLoader();}
-    };
-    xhr.send(jsonData);
-}, index * 1000);
+        };
+        xhr.send(jsonData);
+    }, index * 500);
     }else{
       displayToast('Ви вже створили накладну для #'+id, 'Bottom Left', types[4])
 

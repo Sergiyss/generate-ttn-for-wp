@@ -222,7 +222,7 @@ div#header {
     padding-top: 35px;
 }
 
-
+a.tab_history,
 a.tab_settings {
     color: white;
     font-weight: 700;
@@ -239,6 +239,12 @@ a.tab_settings {
     background: #1d2327;
 }
 
+a.tab_history{
+      buffered-rendering: azure;
+    background: #FF5722;
+}
+
+.tab_history,
 .tab_settings,
 .send_generate_ttn {
     height: 50px;
@@ -253,6 +259,7 @@ a.tab_settings {
     box-shadow: box-shadow: 1px 1px 8px 5px #a50f0f;
     transition: background-color 0.3s, box-shadow 0.3s; /* Добавляем плавный переход для box-shadow */
 }
+.tab_history a,
 .tab_settings a,
 .send_generate_ttn p {
     font-family: sans-serif;
@@ -423,3 +430,4 @@ footer {
 footer img {
     width: 150px;
 }
+

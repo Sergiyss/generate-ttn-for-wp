@@ -46,7 +46,7 @@ function insert_data_base(){
 	$history_data = array(
 		'order_number' => $orders_json_ids,
 		'order_link' => $linkGenerateTTN,
-	    'order_date' => date('Y-m-d') // Текущая дата
+	    'order_date' => date('d.m.Y') // Текущая дата
 	);
 
 	$table_name = $table_name = getNameTable($wpdb);
@@ -79,7 +79,7 @@ function get_all_histoty_generate_ttn(){
 	$table_name = $table_name = getNameTable($wpdb);
 
 	// Выбор всех данных из таблицы
-	$results = $wpdb->get_results( "SELECT * FROM $table_name", ARRAY_A );
+	$results = $wpdb->get_results( "SELECT * FROM $table_name LIMIT 50", ARRAY_A);
 
 	// Проверка на наличие результатов
 	if ( $results ) {
@@ -94,20 +94,9 @@ function get_all_histoty_generate_ttn(){
                 'order_date'   => $row['order_date'],
             );
 	    }
-
-	    $response = array('status' => 'success', 'message' => $id, 'data' => $history_data);
-    	echo json_encode($response);
-	} else {
-	    $response = array('status' => 'error', 'message' => $id, 'data' => 'Данные не найдены.');
-    	echo json_encode($response);
 	}
-
-	wp_die();
+	return $history_data;
 }
-
-
-add_action('wp_ajax_get_all_histoty_generate_ttn', 'get_all_histoty_generate_ttn'); // Зарегистрированные пользователи
-add_action('wp_ajax_nopriv_get_all_histoty_generate_ttn', 'get_all_histoty_generate_ttn'); // Неавторизованные пользователи
 
 
 ?>

@@ -1,0 +1,51 @@
+.history {
+		padding-bottom: 25px;
+		text-align: end;
+		width: 94%;
+	}
+	a.back_btn {
+		text-align: right;
+		margin: 0 auto;
+		background: #ff0000;
+		padding: 10px;
+		color: white;
+		font-size: 16px;
+		border-radius: 10px;
+		text-decoration: none;
+		font-family: sans-serif;
+	}
+	.container {
+		min-width: 100%;
+	}
+
+
+	.history h2 {
+		text-align: center;
+		font-size: 1.6rem;
+		font-family: sans-serif;
+		color: #ff0000bd;
+	}
+	table.form_table {
+		background: #ff000024;
+		padding: 6px;
+		border-radius: 6px;
+		margin: 0 auto;
+	}
+
+	th.form_th {
+		/* border-bottom: 1px solid #ff0000; */
+		/* color: white; */
+		font-family: sans-serif;
+	}
+
+	td.form_td {
+		border: 2px solid #ff00001a;
+		padding: 5px;
+		border-radius: 6px;
+	}
+
+	th.form_th {
+		border: 2px solid #ff00001a;
+		font-family: sans-serif;
+		padding: 5px;
+	}

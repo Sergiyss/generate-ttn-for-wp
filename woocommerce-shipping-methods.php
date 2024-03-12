@@ -5,9 +5,17 @@ Description: Плагін управління замовленнями Ново
 Version: 1.0
 Author: Krainik Serhii
 */
+function my_styles() {
+    wp_enqueue_style( 'my-style', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array(), '1.0', 'all' );
+    wp_enqueue_style( 'my-style-for-history', plugin_dir_url( __FILE__ ) . 'assets/css/history.css', array(), '1.0', 'all' );
+}
+add_action( 'admin_enqueue_scripts', 'my_styles' );
+
+
 include 'function.php';
 include 'backend/GetWooOrders.php';
 include 'tabs/Settings.php';
+
 
 
 
@@ -53,8 +61,9 @@ function woocommerce_shipping_methods_menu() {
 function display_shipping_methods() {
     if (isset($_GET['tab'])) {
         getSettingPlugin();
-    } else if(isset($_GET['update'])){
-     echo "::";
+    } else if(isset($_GET['history'])){
+        include 'front/HistoryTable.php';
+        history_page();
  } else {
     include 'front/index.php';
     if(get_option('my_plugin_data') == false){
@@ -126,4 +135,13 @@ function grant_woocommerce_settings_access() {
     $roles->add_cap( 'administrator', 'manage_my_plugin' );
     $roles->add_cap( 'seller', 'manage_my_plugin' );
 }
+
+
+function history_page(){
+    $history = get_all_histoty_generate_ttn();
+
+
+    generate_form_data($history,  get_option('np_settings_apiKey'));
+}
+
 ?>
