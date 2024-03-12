@@ -43,36 +43,6 @@ $whoPaysForShipping  = $data['whoPaysForShipping'];
 $numberOfSeats       = $data['numberOfSeats'];
 $typeDelivery        = $data['typeDelivery'];
 
-// Делайте что-то с полученными данными
-// Например, можно сохранить их в базу данных или выполнить другие операции
-
-
-
-// $data = array(
-//     'id'                  => $data['id'],
-//     'firstLastName'       => $data['firstLastName'],
-//     'addressNp'           => $data['addressNp'],
-//     'phone'               => $data['phone'],
-//     'weight'              => $data['weight'],
-//     'price'               => $data['price'],
-//     'cityRef'             => $data['cityRef'],
-//     'warehouseRef'        => $data['warehouseRef'],
-//     'note_for_order'      => $data['note_for_order'],
-//     'product_description' => $data['product_description'],
-//     'deliveryCheckbox'    => $data['deliveryCheckbox'],
-//     'postomatCheckbox'    => $data['postomatCheckbox'],
-//     'volumetricVolume'    => $data['volumetricVolume'],
-//     'volumetricWidth'     => $data['volumetricWidth'],
-//     'volumetricLength'    => $data['volumetricLength'],
-//     'volumetricHeight'    => $data['volumetricHeight'],
-//     'p_weight'            => $data['p_weight'],
-// );
-
-
-
-
-
-
 
 $orderData = array(
         // Дата отправления

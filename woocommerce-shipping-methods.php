@@ -5,7 +5,7 @@ Description: Плагін управління замовленнями Ново
 Version: 1.0
 Author: Krainik Serhii
 */
-
+include 'function.php'
 include 'backend/GetWooOrders.php';
 include 'tabs/Settings.php';
 
@@ -17,6 +17,7 @@ include 'tabs/Settings.php';
 function display_shipping_methods_activate() {
     createNewRole();  
     grant_woocommerce_settings_access();
+    createTable();
 }
 
 register_activation_hook(__FILE__, 'display_shipping_methods_activate');
