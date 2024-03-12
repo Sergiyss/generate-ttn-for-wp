@@ -7,7 +7,7 @@ const types = [
     'is-danger',
     ]
 
-const DocumentRefs = []; //После создания ттнки, приходит его ферка и инт документ.
+const documentRefs = []; //После создания ттнки, приходит его ферка и инт документ.
 
 const IntDocNumbers = [];
 
@@ -43,9 +43,6 @@ function create_ttn(){
     var cards = document.querySelectorAll('.orders .card');
 
     cards.forEach(function(card, index) {
-
-        console.log('INDEX');
-         console.log(index);
 
       // Получаем данные из каждого элемента "card"
         var id = card.id;
@@ -89,7 +86,6 @@ function create_ttn(){
             var data = {
             action              : 'your_action_name', // Замените 'your_action_name' на имя вашего обработчика AJAX в WordPress
             id                  : id,
-            index               : index,
             apiKey              : senderObject.apiKey,
             senderPhone         : senderObject.senderPhone,
             senderRef           : senderObject.senderRef,
@@ -124,44 +120,40 @@ function create_ttn(){
         setTimeout(function() {
             // Отправляем данные на сервер
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/wp-content/plugins/nova-poshta-renerate-ttn/backend/Callback.php');
+            xhr.open('POST', 'https://www.nhnl.com.ua/wp-content/plugins/nova-poshta-renerate-ttn/backend/Callback.php');
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var jsonObject = JSON.parse(xhr.responseText);
 
-            if (xhr.status === 200) {
-                var jsonObject = JSON.parse(xhr.responseText);
-
-                if(jsonObject.data['success'] == true){
+                    if(jsonObject.data['success'] == true){
                       setInditificatorSuccess(jsonObject.message, true);
                       OrderSuccess.push(jsonObject.message); //Передаю его ID
                       insertTTN(jsonObject.message, jsonObject.data);
                       displayToast('Замовлення #'+jsonObject.message+': Створено', 'Bottom Left', types[3])
                   }else{
-                     setInditificatorSuccess(jsonObject.message, false);
+                   setInditificatorSuccess(jsonObject.message, false);
 
-                     jsonObject.data['errors'].forEach((item, index) => {
+                   jsonObject.data['errors'].forEach((item, index) => {
 
-                        displayToast('Замовлення #'+jsonObject.message+': '+item, 'Bottom Left', types[5])
-                    });
+                    displayToast('Замовлення #'+jsonObject.message+': '+item, 'Bottom Left', types[5])
+                });
 
-                 }
 
-                console.log(cards.length+" >> Last "+index);
-                if (index === cards.length-1) {
-                    inset_data_base_link_generate_ttn()
-                }
+               }
 
-            }else{
-                displayToast('Помилка сервера '+xhr.status, 'Bottom Left', types[5]);
-            }
-
-        };
-        xhr.onerror = function() {
-            console.error('Ошибка при отправке данных');
-            displayToast('Помилка сервера '+xhr.status, 'Bottom Left', types[5]);
-        };
-        xhr.send(jsonData);
-    }, index * 500);
+               if (index === cards.length) { hideLoader();}
+           } else {
+            console.error('Ошибка при отправке данных. Статус: ' + xhr.status);
+            if (index === cards.length) { hideLoader();}
+        }
+    };
+    xhr.onerror = function() {
+        console.error('Ошибка при отправке данных');
+        if (index === cards.length) { hideLoader();}
+    };
+    xhr.send(jsonData);
+}, index * 1000);
     }else{
       displayToast('Ви вже створили накладну для #'+id, 'Bottom Left', types[4])
 
@@ -177,7 +169,7 @@ function insertTTN(id, dataObject) {
   var card = document.getElementById(id);
   if (card) {
     if ('IntDocNumber' in dataObject.data[0] && 'Ref' in dataObject.data[0]) {
-      DocumentRefs.push(dataObject.data[0]['Ref']);
+      documentRefs.push(dataObject.data[0]['Ref']);
       IntDocNumbers.push(dataObject.data[0]['IntDocNumber']);
 
       var selector = card.querySelector('.ttn_code');
@@ -283,16 +275,12 @@ function setPdfTTNs(on_status_order){
 
 var senderObject = JSON.parse(senderData);
 
-if (DocumentRefs.length !== 0) {
-
-
-     inset_data_base_link_generate_ttn()
-
+if (documentRefs.length !== 0) {
   var data = {
           action: 'generate_ttn', // Замените 'your_action_name' на имя вашего обработчика AJAX в WordPress
           id:1,
           apiKey : senderObject.apiKey,
-          ttns: DocumentRefs,
+          ttns: documentRefs,
       };
       
       // Преобразуем объект в JSON
@@ -389,39 +377,32 @@ function changeOrderStatus(){
 
     if (OrderSuccess.length !== 0) {
 
-        var orders = "";
-        if(OrderSuccess.length == 1){
-            orders = OrderSuccess[0] + ",";
-        }else{
-         // Преобразование массива в строку с разделителем ","
-            orders = OrderSuccess.join(",");
-        }
-        
+        var orders_ids = JSON.stringify(OrderSuccess);
+
         let form_data = new FormData();
         form_data.append('action', 'change_order_status');
-        form_data.append('order_ids', orders); // Пример параметра order_id
+        form_data.append('order_ids', orders_ids); // Пример параметра order_id
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/wp-admin/admin-ajax.php');
         xhr.onload = function() {
             if (xhr.status === 200) {
-                const dataArray = JSON.parse(xhr.responseText);
+              const dataArray = JSON.parse(xhr.responseText);
 
-                displayToast('Зроблено. Дочекайтеся оновлення сторінки', 'Bottom Left', types[3])
-                
-                location.reload();
+              displayToast('Зроблено. Дочекайтеся оновлення сторінки', 'Bottom Left', types[3])
+              location.reload();
 
-            } else {
-                console.error('Request failed. Status: ' + xhr.status);
-            }
-        };
-        xhr.onerror = function() {
-            console.error('Request failed');
-        };
-        xhr.send(form_data);
-    }else{
-        displayToast('Немає даних. Для початку потрібно створити ттнки', 'Bottom Left', types[4])
-    }
+          } else {
+              console.error('Request failed. Status: ' + xhr.status);
+          }
+      };
+      xhr.onerror = function() {
+        console.error('Request failed');
+    };
+    xhr.send(form_data);
+}else{
+ displayToast('Немає даних. Для початку потрібно створити ттнки', 'Bottom Left', types[4])
+}
 }
 
 
@@ -510,136 +491,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-
-
-/**
- * Всё для работы с историяй
- * */
-
-function inset_data_base_link_generate_ttn(){
-     if (OrderSuccess.length !== 0 && DocumentRefs.length !==0) {
-        
-        var orders_ids = OrderSuccess;
-        var document_refs = DocumentRefs;
-
-        let form_data = new FormData();
-        form_data.append('action', 'insert_data_base');
-        form_data.append('order_ids', orders_ids); // Пример параметра order_id
-        form_data.append('order_ttn_refs', document_refs); // Пример параметра order_id
-        
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/wp-admin/admin-ajax.php');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                const dataArray = JSON.parse(xhr.responseText);
-
-                // if(dataArray.status)
-
-
-
-                if(dataArray.status === "success"){
-
-                }else{
-
-                    displayToast(dataArray.data, 'Bottom Left', types[5])
-                }
-
-            } else {
-
-                // displayToast(jsonObject.data['success'], 'Bottom Left', types[3])
-                // console.error('Request failed. Status: ' + xhr.status);
-            }
-        };
-        xhr.onerror = function() {
-            displayToast('Request failed', 'Bottom Left', types[5])
-        };
-        xhr.send(form_data);
-     }
-}
-
-
-function get_all_history_ttn(){
-     //if (OrderSuccess.length !== 0 && DocumentRefs.length !==0) {
-        
-        var orders_ids = JSON.stringify(OrderSuccess);
-        var document_refs = JSON.stringify(DocumentRefs);
-
-        let form_data = new FormData();
-        form_data.append('action', 'get_all_histoty_generate_ttn');
-        // form_data.append('order_ids', orders_ids); // Пример параметра order_id
-        // form_data.append('order_ttn_refs', document_refs); // Пример параметра order_id
-        
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/wp-admin/admin-ajax.php');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                const dataArray = JSON.parse(xhr.responseText);
-
-                // if(dataArray.status)
-
-
-
-                if(dataArray.status === "success"){
-                    generate_table(dataArray)
-                }else{
-
-                    //displayToast(dataArray.data, 'Bottom Left', types[5])
-                }
-
-            } else {
-
-                // displayToast(jsonObject.data['success'], 'Bottom Left', types[3])
-                // console.error('Request failed. Status: ' + xhr.status);
-            }
-        };
-        xhr.onerror = function() {
-            displayToast('Request failed', 'Bottom Left', types[5])
-        };
-        xhr.send(form_data);
-     //}
-}
-
-
-
-
-
-
-
-function generate_table(json_data){
-    // Извлекаем данные из JSON
-    const dataArray = json_data;
-
-    // Получаем div контейнер
-    const container = document.getElementsByClassName('container_form')[0];
-
-    // Создаем таблицу
-    const table = document.createElement('table');
-
-    // Создаем заголовок таблицы
-    const headerRow = document.createElement('tr');
-    for (const key in dataArray.data[0]) {
-        const th = document.createElement('th');
-        th.textContent = key;
-        headerRow.appendChild(th);
-    }
-    table.appendChild(headerRow);
-
-    // Добавляем строки с данными
-    dataArray.data.forEach(item => {
-
-        console.log(item.order_link[0].length);
-
-        const row = document.createElement('tr');
-        for (const key in item) {
-            const cell = document.createElement('td');
-            cell.textContent = Array.isArray(item[key]) ? item[key].join(', ') : item[key];
-            row.appendChild(cell);
-        }
-        table.appendChild(row);
-    });
-
-    // Вставляем таблицу в контейнер
-    container.appendChild(table);
-
-}

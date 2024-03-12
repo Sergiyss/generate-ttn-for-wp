@@ -11,7 +11,6 @@ $data = json_decode($jsonData, true);
 
 // Теперь у вас есть доступ к данным из JavaScript
 $id                  = $data['id'];
-$index               = $data['index'];
 $apiKey              = $data['apiKey'];
 $senderPhone         = $data['senderPhone'];
 $senderRef           = $data['senderRef'];
@@ -43,6 +42,36 @@ $paymentType         = $data['paymentType'];
 $whoPaysForShipping  = $data['whoPaysForShipping'];
 $numberOfSeats       = $data['numberOfSeats'];
 $typeDelivery        = $data['typeDelivery'];
+
+// Делайте что-то с полученными данными
+// Например, можно сохранить их в базу данных или выполнить другие операции
+
+
+
+// $data = array(
+//     'id'                  => $data['id'],
+//     'firstLastName'       => $data['firstLastName'],
+//     'addressNp'           => $data['addressNp'],
+//     'phone'               => $data['phone'],
+//     'weight'              => $data['weight'],
+//     'price'               => $data['price'],
+//     'cityRef'             => $data['cityRef'],
+//     'warehouseRef'        => $data['warehouseRef'],
+//     'note_for_order'      => $data['note_for_order'],
+//     'product_description' => $data['product_description'],
+//     'deliveryCheckbox'    => $data['deliveryCheckbox'],
+//     'postomatCheckbox'    => $data['postomatCheckbox'],
+//     'volumetricVolume'    => $data['volumetricVolume'],
+//     'volumetricWidth'     => $data['volumetricWidth'],
+//     'volumetricLength'    => $data['volumetricLength'],
+//     'volumetricHeight'    => $data['volumetricHeight'],
+//     'p_weight'            => $data['p_weight'],
+// );
+
+
+
+
+
 
 
 $orderData = array(
@@ -93,51 +122,68 @@ if($deliveryCheckbox == true){
 }
 
 
+
+
+
+
 $s_data = json_decode($senderData, true);
 
 
 
-    $np = new \LisDev\Delivery\NovaPoshtaApi2($apiKey);
 
-    $RecipientWarehouseIndex = $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'][0]['WarehouseIndex'];
-
-
-    $fl_name = explode(" ", $firstLastName);
-
-
-
-
-    $senderData =  array(
+$senderData =  array(
 
     "SenderWarehouseIndex"  => $getWarehousesNPWarehouseIndex,
     "RecipientWarehouseIndex"  => $RecipientWarehouseIndex,
     'SendersPhone' => $senderPhone,
-        'Sender' => $senderRef, 
-        'CitySender' => $resultSenderCityRef, 
-        'SenderAddress' => $getWarehousesNPRef, 
-        'ContactSender' => $contactSenderRef,
+        'Sender' => $senderRef, //'3e32c3e7-5f4b-11ed-a60f-48df37b921db',
+        'CitySender' => $resultSenderCityRef, // 'db5c88f0-391c-11dd-90d9-001a92567626',
+        'SenderAddress' => $getWarehousesNPRef, //'1692284b-e1c2-11e3-8c4a-0050568002cf',
+        'ContactSender' => $contactSenderRef, //https://developers.novaposhta.ua/view/model/a28f4b04-8512-11ec-8ced-005056b2dbe1/method/a3575a67-8512-11ec-8ced-005056b2dbe1
     );
-    // Генерирование новой накладной
-    $result = $np->newInternetDocument(
-    
-        $senderData,
-        // Данные получателя
-        array(
-            'FirstName' => $fl_name[1],
-            'MiddleName' => '',
-            'LastName' => $fl_name[0],
-            'RecipientsPhone' => '38'.cleanPhoneNumber($phone),
-            'AddressNP' => $addressNp,
-            'CityRecipient' => $cityRef,
-            'RecipientAddress' => $warehouseRef,
-        ),
 
-        $orderData,
-    );
+
+    // $response = array('status' => 'success', 'message' => $id, 'data' => $senderData);
+    // echo json_encode($response);
+
+
+
+$np = new \LisDev\Delivery\NovaPoshtaApi2($apiKey);
+
+$RecipientWarehouseIndex = $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'][0]['WarehouseIndex'];
+
+
+
+
+$fl_name = explode(" ", $firstLastName);
+    // Генерирование новой накладной
+$result = 
+
+$np->newInternetDocument(
+    $senderData,
+
+
+        // Данные получателя
+    array(
+            //3e4c0d0d-5f4b-11ed-a60f-48df37b921db
+        'FirstName' => $fl_name[1],
+        'MiddleName' => '',
+        'LastName' => $fl_name[0],
+        'RecipientsPhone' => '38'.cleanPhoneNumber($phone),
+        'AddressNP' => $addressNp,
+            'CityRecipient' => $cityRef, // ref города // Буду получать здесь wcus_city_ref
+            'RecipientAddress' => $warehouseRef,// https://developers.novaposhta.ua/view/model/a0cf0f5f-8512-11ec-8ced-005056b2dbe1/method/a2322f38-8512-11ec-8ced-005056b2dbe1 // Буду получать здесь  wcus_warehouse_ref
+            //'ContactRecipient' => '7654ba8c-daf4-11ee-a60f-48df37b921db', //Ідентифікатор контактної особи
+            //'Recipient' => '3e4c0d0d-5f4b-11ed-a60f-48df37b921db', //тута взял https://developers.novaposhta.ua/view/model/a28f4b04-8512-11ec-8ced-005056b2dbe1/method/a3575a67-8512-11ec-8ced-005056b2dbe1
+        ),
+    $orderData,
+
+
+);
 
     // Отправляем ответ обратно в JavaScript (опционально)
-    $response = array('status' => 'success', 'index' => $index, 'message' => $id, 'data' => $result, 'address_np'=> $RecipientWarehouseIndex);
-    echo json_encode($response);
+$response = array('status' => 'success', 'message' => $id, 'data' => $result);
+echo json_encode($response);
 
 
 

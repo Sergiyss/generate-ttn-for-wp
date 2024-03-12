@@ -5,17 +5,9 @@ Description: Плагін управління замовленнями Ново
 Version: 1.0
 Author: Krainik Serhii
 */
-function my_styles() {
-    wp_enqueue_style( 'my-style', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array(), '1.0', 'all' );
-    wp_enqueue_style( 'my-style-for-history', plugin_dir_url( __FILE__ ) . 'assets/css/history.css', array(), '1.0', 'all' );
-}
-add_action( 'admin_enqueue_scripts', 'my_styles' );
 
-
-include 'function.php';
 include 'backend/GetWooOrders.php';
 include 'tabs/Settings.php';
-
 
 
 
@@ -25,7 +17,6 @@ include 'tabs/Settings.php';
 function display_shipping_methods_activate() {
     createNewRole();  
     grant_woocommerce_settings_access();
-    createTable();
 }
 
 register_activation_hook(__FILE__, 'display_shipping_methods_activate');
@@ -61,9 +52,8 @@ function woocommerce_shipping_methods_menu() {
 function display_shipping_methods() {
     if (isset($_GET['tab'])) {
         getSettingPlugin();
-    } else if(isset($_GET['history'])){
-        include 'front/HistoryTable.php';
-        history_page();
+    } else if(isset($_GET['update'])){
+     echo "::";
  } else {
     include 'front/index.php';
     if(get_option('my_plugin_data') == false){
@@ -86,10 +76,11 @@ function get_orders_np() {
 
 function change_order_status(){
     $orders_ids = $_POST['order_ids'];
-   
-    $orders = explode(",", $orders_ids);
-   
-    foreach($orders as $id){
+    $orders = json_decode($orders_ids); // Преобразует JSON строку в массив
+
+    // Используем цикл foreach для итерации по массиву
+    foreach ($orders as $id) {
+
         $order = wc_get_order($id);
 
         // Проверяем, существует ли заказ с указанным номером
@@ -99,15 +90,11 @@ function change_order_status(){
         }
     }
 
-
-    $response = array('status' => 'success');
-    echo json_encode($response);
-
     wp_die();
 }
 
-add_action('wp_ajax_change_order_status', 'change_order_status'); // Зарегистрированные пользователи
-add_action('wp_ajax_nopriv_change_order_status', 'change_order_status'); // Неавторизованные пользователи
+add_action('wp_ajax_get_change_order_status', 'change_order_status'); // Зарегистрированные пользователи
+add_action('wp_ajax_nopriv_get_change_order_status', 'change_order_status'); // Неавторизованные пользователи
 
 
 function createNewRole(){
@@ -138,13 +125,4 @@ function grant_woocommerce_settings_access() {
     $roles->add_cap( 'administrator', 'manage_my_plugin' );
     $roles->add_cap( 'seller', 'manage_my_plugin' );
 }
-
-
-function history_page(){
-    $history = get_all_histoty_generate_ttn();
-
-
-    generate_form_data($history,  get_option('np_settings_apiKey'));
-}
-
 ?>

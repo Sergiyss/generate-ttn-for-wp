@@ -28,6 +28,18 @@ function createTable(){
 		dbDelta( $sql );
 	}
 }
+
+
+function delete_all_records() {
+    global $wpdb;
+    
+    $table_name = getNameTable($wpdb);
+
+    // Удаление всех записей из таблицы
+    $wpdb->query( "DELETE FROM $table_name" );
+}
+
+
 /**
  * Вставка новых данных в базу данных
  * 
@@ -46,7 +58,7 @@ function insert_data_base(){
 	$history_data = array(
 		'order_number' => $orders_json_ids,
 		'order_link' => $linkGenerateTTN,
-	    'order_date' => date('d.m.Y') // Текущая дата
+	    'order_date' => date('Y-m-d') // Текущая дата
 	);
 
 	$table_name = $table_name = getNameTable($wpdb);
@@ -73,30 +85,31 @@ add_action('wp_ajax_nopriv_insert_data_base', 'insert_data_base'); // Неавт
 
 
 function get_all_histoty_generate_ttn(){
-	global $wpdb;
+    global $wpdb;
 
-	// Название таблицы с учетом префикса WordPress
-	$table_name = $table_name = getNameTable($wpdb);
 
-	// Выбор всех данных из таблицы
-	$results = $wpdb->get_results( "SELECT * FROM $table_name LIMIT 50", ARRAY_A);
+	//delete_all_records();
+    // Название таблицы с учетом префикса WordPress
+    $table_name = $table_name = getNameTable($wpdb);
 
-	// Проверка на наличие результатов
-	if ( $results ) {
-		$history_data = array(); 
-	    
-	    foreach ( $results as $row ) {
-	       
-	        $history_data[] = array(
+    // Выбор всех данных из таблицы
+    $results = $wpdb->get_results( "SELECT * FROM $table_name LIMIT 50", ARRAY_A);
+
+    // Проверка на наличие результатов
+    if ( $results ) {
+        $history_data = array(); 
+        
+        foreach ( $results as $row ) {
+            $formatted_date = date('d.m.y', strtotime($row['order_date'])); // Преобразуем дату в нужный формат
+            $history_data[] = array(
                 'ID' => $row['id'],
                 'order_number' => $row['order_number'], // Преобразуем строку JSON в массив
                 'order_link'   => $row['order_link'],   // Преобразуем строку JSON в массив
-                'order_date'   => $row['order_date'],
+                'order_date'   => $formatted_date,      // Используем преобразованную дату
             );
-	    }
-	}
-	return $history_data;
+        }
+    }
+    return $history_data;
 }
-
 
 ?>
