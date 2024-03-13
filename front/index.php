@@ -5,7 +5,7 @@ include 'card.php';
 function generateList($list){
     // Цикл для обхода каждого объекта в массиве
     foreach ($list as $order) {
-        card($order);
+        card($order, get_option('np_settings_is_active_delivery'));
     }
 }
 

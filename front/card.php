@@ -1,6 +1,6 @@
 <?php 
 
-function card ($list) {
+function card ($list, $is_active_delivery) {
     $products_html = '';
     foreach ($list['products'] as $product) {
         $products_html .= '<li>'.$product.'</li>';
@@ -75,16 +75,16 @@ function card ($list) {
 					<div class="info">
 						<p><strong>📮Замовлення через поштомат</strong></p>
 					</div>
-                </div>
-                
-                <div class="row">
+                </div>';
+                if($is_active_delivery == true) {
+                echo '<div class="row">
 	                <input type="checkbox" id="delivery" name="delivery" />
 	                <div class="info">
 						<p>💸Накладений платіж?</p>
 					</div>
-                 </div>
-
-                <div class="row">
+                 </div>';
+                 } ;
+                echo '<div class="row">
 	                <input type="checkbox" id="other_settings" name="other_settings" />
 	                <div class="info">
 						<p>🚚Інші налаштування доставки</p>
