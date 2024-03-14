@@ -151,11 +151,12 @@ function create_ttn(){
                     });
 
                  }
-
+                 //По завершению
                 console.log(cards.length+" >> Last "+index);
-                if (index === cards.length-1) {
-                    inset_data_base_link_generate_ttn()
-                }
+                // if (index === cards.length-1) {
+                //     displayToast('Готово, змінюю статус замовлення', 'Bottom Left', types[3])
+                //     inset_data_base_link_generate_ttn()
+                // }
 
             }else{
                 displayToast('Помилка сервера '+xhr.status, 'Bottom Left', types[5]);
