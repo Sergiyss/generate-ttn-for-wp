@@ -230,14 +230,6 @@ function my_plugin_initialize_settings() {
         'my_plugin_other_settings_section' // ID секции, к которой будет привязано поле
     );
 
-    add_settings_field(
-        'np_settings_is_active_delivery', // ID поля
-        'Активація післяплати', // Заголовок поля
-        'np_settings_is_active_delivery_form', // Функция обратного вызова для вывода HTML-кода поля
-        'my_plugin_settings', // Идентификатор страницы, на которой будет отображаться поле
-        'my_plugin_other_settings_section' // ID секции, к которой будет привязано поле
-    );
-
 
 
 // np_default_weight,
@@ -321,14 +313,11 @@ function my_plugin_initialize_settings() {
 
 
     register_setting('my_plugin_settings', 'np_settings_auto_update_order_status_np');
-
-    register_setting('my_plugin_settings', 'np_settings_is_active_delivery');
-
 }
 
 // Функция обратного вызова для секции "General Settings"
 function my_plugin_general_settings_section_callback() {
-    echo '';
+    echo 'Настройки данных отправителя';
 }
 //0a25b086dbd3498c8f2ff41988cfdf87
 // Функция обратного вызова для поля "Максимальная скидка"
@@ -460,12 +449,7 @@ function np_settings_auto_update_order_status_form() {
     <?php
 }
 
-function np_settings_is_active_delivery_form() {
-    $value = get_option('np_settings_is_active_delivery');
-    ?>
-    <input type="checkbox" name="np_settings_is_active_delivery" <?php checked( $value, 'on' ); ?> />
-    <?php
-}
+
 
 
 function np_settings_generate_data_user_np_form(){ 

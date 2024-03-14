@@ -62,13 +62,7 @@ function create_ttn(){
             var warehouseRef = card.querySelector('.warehouse_ref').textContent;
         //**Другие настройки доставки*//
             var postomatCheckbox  = card.querySelector('#postomat').checked;
-            
-            var deliveryCheckbox  = card.querySelector('#delivery');
-            if (deliveryCheckbox !== null) {
-                deliveryCheckbox = deliveryCheckbox.checked;
-            } else {
-                deliveryCheckbox = false;
-            }
+            var deliveryCheckbox  = card.querySelector('#delivery').checked;
         /***/
 
             var note_for_order = card.querySelector('#note_for_order').value;
