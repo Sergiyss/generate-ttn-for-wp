@@ -33,7 +33,9 @@ function generateList($list){
        
         <a class="tab_settings" href="?page=woocommerce-shipping-methods&tab=settings">⚙️ Налаштунки</a>
         <a class="tab_history" href="?page=woocommerce-shipping-methods&history">✍️ Історія</a>
-        <button class="udpdate_order_statys" onclick="changeOrderStatus()"><p>🆙 Оновити статус</p></button>
+        <?php if(!get_option('np_settings_auto_update_order_status_np')) {?>
+            <button class="udpdate_order_statys" onclick="changeOrderStatus()"><p>🆙 Оновити статус</p></button>
+        <?php }; ?>
         <button class="print_btn" onclick="setPdfTTNs('<?php echo get_option('np_settings_auto_update_order_status_np'); ?>')"><p>🖨 Роздрукувати ТТН</p></button>
         <div class="send_generate_ttn">
             <p>👨‍🎨 Створити накладні</p>
