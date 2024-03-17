@@ -78,7 +78,7 @@ if ($postomatCheckbox == true) {
     );
     $orderData['ServiceType']   = 'WarehousePostomat';
 } else {
-    $orderData['VolumeGeneral'] = $volumetricVolume;
+    //$orderData['VolumeGeneral'] = $volumetricVolume;
     $orderData['ServiceType']   = 'WarehouseWarehouse';
 }
 
@@ -102,7 +102,7 @@ $s_data = json_decode($senderData, true);
     //Нужно камоментить, если будет рефакторинг
     $RecipientWarehouseIndex = $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'][0]['WarehouseIndex'];
 
-    $listNp =  $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data']
+    //$listNp =  $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'];
 
     /**
      * Рефакторинг, если $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'] возвращает больше чем один адресс, то, нужно проверить на совпадения.
