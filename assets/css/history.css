@@ -26,7 +26,7 @@
 		color: #ff0000bd;
 	}
 	table.form_table {
-		background: #ff000024;
+		background: #ffffff;
 		padding: 6px;
 		border-radius: 6px;
 		margin: 0 auto;
@@ -39,13 +39,13 @@
 	}
 
 	td.form_td {
-		border: 2px solid #ff00001a;
+		border: 2px solid #0000001a;
 		padding: 5px;
 		border-radius: 6px;
 	}
 
 	th.form_th {
-		border: 2px solid #ff00001a;
+		border: 2px solid #0000001a;
 		font-family: sans-serif;
 		padding: 5px;
 	}

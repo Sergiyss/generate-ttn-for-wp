@@ -19,7 +19,7 @@ $contactSenderRef    = $data['contactSenderRef'];
 $resultSenderCityRef = $data['resultSenderCityRef'];
 $getWarehousesNPRef            = $data['getWarehousesNPRef'];
 $getWarehousesNPWarehouseIndex = $data['getWarehousesNPWarehouseIndex'];
-$senderData          = $data['senderData'];
+$senderData          = $data['senderData'] ?? '';
 $firstLastName       = $data['firstLastName'];
 $addressNp           = $data['addressNp'];
 $phone               = $data['phone'];
@@ -43,6 +43,20 @@ $paymentType         = $data['paymentType'];
 $whoPaysForShipping  = $data['whoPaysForShipping'];
 $numberOfSeats       = $data['numberOfSeats'];
 $typeDelivery        = $data['typeDelivery'];
+
+
+/*
+Если доставка к двери, то передаю эти настройки
+*/
+
+$deliveryToAddressCheckbox = $data['deliveryToAddressCheckbox'];
+$RecipientCityName = $data['RecipientCityName'];
+$RecipientArea = $data['RecipientArea'];
+$RecipientAreaRegions = $data['RecipientAreaRegions'];
+$RecipientAddressName = $data['RecipientAddressName'];
+$RecipientHouse = $data['RecipientHouse'];
+$RecipientFlat = $data['RecipientFlat'];
+$RecipientType = $data['RecipientType'];
 
 
 $orderData = array(
@@ -77,6 +91,18 @@ if ($postomatCheckbox == true) {
         ),
     );
     $orderData['ServiceType']   = 'WarehousePostomat';
+} else if ($deliveryToAddressCheckbox == true){
+      $orderData['ServiceType']   = 'WarehouseDoors',
+      $orderData['NewAddress'] = '1',
+      $orderData['RecipientCityName'] = $RecipientCityName,
+      $orderData['RecipientArea'] = $RecipientArea,
+      $orderData['RecipientAreaRegions'] = $RecipientAreaRegions,
+      $orderData['RecipientAddressName'] = $RecipientAddressName,
+      $orderData['RecipientHouse'] = $RecipientHouse,
+      $orderData['RecipientFlat'] = $RecipientFlat,
+      $orderData['RecipientName'] = $RecipientName,
+      $orderData['RecipientType'] = $RecipientType,
+      $orderData['SettlementType'] = $SettlementType,
 } else {
     //$orderData['VolumeGeneral'] = $volumetricVolume;
     $orderData['ServiceType']   = 'WarehouseWarehouse';

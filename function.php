@@ -103,7 +103,8 @@ function get_all_histoty_generate_ttn(){
     $table_name = $table_name = getNameTable($wpdb);
 
     // Выбор всех данных из таблицы
-    $results = $wpdb->get_results( "SELECT * FROM $table_name LIMIT 50", ARRAY_A);
+    $results = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY id DESC LIMIT 50", ARRAY_A);
+
 
     // Проверка на наличие результатов
     if ( $results ) {

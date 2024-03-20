@@ -6,6 +6,12 @@ function card ($list, $is_active_delivery) {
         $products_html .= '<li>'.$product.'</li>';
     }
 
+    $street = explode(" ", $list['address_np']);
+    $recipientHouse = "";
+    if (isset($street[1])) {
+        $recipientHouse = $street[1];
+    }
+
     echo '
         <div id="'.$list['order_id'].'" class="card" style="position: relative;">
             <div class="colums_np">
@@ -34,6 +40,7 @@ function card ($list, $is_active_delivery) {
 					<div class="order_numbe">
 						<div class="row">
 							<h2>Замовлення # '.$list['order_id'].' </h2>
+							<input type="checkbox" id="is_generate_ttn" name="генерувати накладну" checked />
 							<div class="status"></div>
 						</div>
 					</div>
@@ -68,8 +75,15 @@ function card ($list, $is_active_delivery) {
                             <input id="total_order" type="string" value="'.$list['total'].'" style="font-size: 18px; font-size: 18px; max-width: 75px !important;border: 0px;font-family: sans-serif; font-weight: 600;"> грн</div>
                         </div>
                     </div>
-                </div>
 
+
+                <div class="row">
+                    <input type="checkbox" id="delivery_to_address_block" name="delivery_to_address_block" />
+                        <div class="info">
+                            <p><strong>🚖Замовлення на адресу</strong></p>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                 <input type="checkbox" id="postomat" name="postomat" />
 					<div class="info">
@@ -115,8 +129,41 @@ function card ($list, $is_active_delivery) {
                     <input id="note_for_order" type="string" value="'.get_option('np_default_notepad').'" style="width: 100%; padding: 10px;">
                 </div>
 
-              
             </div>
+            	<div class="delivery_to_address_block">
+					<div class="delivery_to_address hidden">
+						<p class="info_p">⚠️ Для замовлення на адресу, потрібно перевірити дані. Якщо дані відсутні або не збігаються, необхідно їх виправити ⚠️</p>
+					    <div class=" colums_np">
+				            <div class="decs_input_text">Ідентифікатор міста отримувача </div>
+				            <input class="form_style" id="RecipientCityName" type="string" value="'.$list['city'].'" style="width: 100px; padding: 10px;">
+				        </div>
+				        <div class=" colums_np">
+				            <div class="truncate decs_input_text">Ідентифікатор області </div>
+				            <input class="form_style" id="RecipientArea" type="string" value="" style="width: 100px; padding: 10px;">
+				        </div>
+				        <div class=" colums_np">
+				            <div class="truncate decs_input_text">Ідентифікатор району</div>
+				            <input class="form_style" id="RecipientAreaRegions" type="string" value="" style="width: 100px; padding: 10px;">
+				        </div>
+				        <div class=" colums_np">
+				            <div class="truncate decs_input_text">Ідентифікатор вулиці</div>
+				            <input class="form_style" id="RecipientAddressName" type="string" value="'.$street[0].'" style="width: 100px; padding: 10px;">
+				        </div>
+				        <div class=" colums_np">
+				            <div class="truncate decs_input_text">Ідентифікатор номера будинку</div>
+				            <input class="form_style" id="RecipientHouse" type="string" value="'.$recipientHouse.'" style="width: 100px; padding: 10px;">
+				        </div>
+				        <div class=" colums_np">
+				            <div class="truncate decs_input_text">Ідентифікатор квартири</div>
+				            <input class="form_style" id="RecipientFlat" type="string" value="" style="width: 100px; padding: 10px;">
+				        </div>
+				        <div class=" colums_np">
+				            <div class="truncate decs_input_text" title="Тип отримувача Organization / PrivatePerson (Організація/Приватна особа)">Тип отримувача Organization / PrivatePerson (Організація/Приватна особа)</div>
+				            <input class="form_style" id="RecipientType" type="string" value="PrivatePerson" style="width: 100px; padding: 10px;">
+				        </div>
+					</div>
+				</div>
+
 
 				<div class="OptionsSeat">
 					<div class="descript hidden">
@@ -194,4 +241,3 @@ function card ($list, $is_active_delivery) {
 }
 ?>
 
-<!-- <button class="print_btn" onclick="setPdfTTNs('.$list['order_id'].')"><p>Роздрукувати ТТН</p></button> -->

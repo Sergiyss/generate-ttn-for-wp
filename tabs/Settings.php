@@ -167,7 +167,7 @@ function my_plugin_initialize_settings() {
 
     add_settings_field(
         'np_default_volumetric_volume',
-        'об\'єм, минимум 0.01', 
+        'об\'єм, минимум 0.0004',
         'np_default_volumetric_volume_form', 
         'my_plugin_settings',
         'my_plugin_general_default_value_section'

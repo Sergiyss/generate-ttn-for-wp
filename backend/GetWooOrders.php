@@ -63,8 +63,8 @@ class GetWooOrders {
 						'email' => $order->data['billing']['email'],
 						'total' => $billing_total,	                
 						'products' => $product_list,
-						'city_ref' => $wcus_city_ref,
-						'warehouse_ref' => $wcus_warehouse_ref
+						'city_ref' => $wcus_city_ref ?? '',
+						'warehouse_ref' => $wcus_warehouse_ref ?? '',
 					);
 
 
