@@ -6,6 +6,8 @@ function getNameTable($wpdb){
 
 /**
  * Создания базы данных для историю генерации накладных
+ * 
+ * vscode.dev ))
  * */
 function createTable(){
 
