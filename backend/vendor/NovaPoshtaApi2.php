@@ -1665,11 +1665,6 @@ class NovaPoshtaApi2 {
 
     function newInternetDocument($sender, $recipient, $params) {
 
-        // Check for required params and set defaults
-
-        // $this->checkInternetDocumentRecipient($recipient);
-
-        // $this->checkInternetDocumentParams($params);
 
         if ( ! $sender['CitySender']) {
 
@@ -1742,13 +1737,7 @@ class NovaPoshtaApi2 {
 
         $recipient['CityRef'] = $recipient['CityRecipient'];
 
-        if ( ! $recipient['RecipientAddress']) {
 
-            $recipientWarehouse = $this->getWarehouse($recipient['CityRecipient'], $recipient['Warehouse']);
-
-            $recipient['RecipientAddress'] = $recipientWarehouse['data'][0]['Ref'];
-
-        }
 
         //Получаю Ідентифікатор контактної особи
         //Если нет индентификатора клиента, то нужно добавить его в контакты
@@ -1763,8 +1752,25 @@ class NovaPoshtaApi2 {
                 'CounterpartyProperty' =>  'Recipient',
             ),
         );
+
+
+        $CounterpartyRef = $counterpartyData['data'][0]['Ref'];
+
+        //$recipient['RecipientAddress'] = $recipient['RecipientAddress'];
+
+        //Если заказ к двери, то нужно получить адрес доставки
+        if($sender['ServiceType'] === "WarehouseDoors"){
+            $recipient['RecipientAddress'] = $recipient['RecipientAddress'];
+        }else{
+
+
+            $recipientWarehouse = $this->getWarehouse($recipient['CityRecipient'], $recipient['Warehouse']);
+
+            $recipient['RecipientAddress'] = $recipientWarehouse['data'][0]['Ref'];
+        }
+
         
-        $recipient['Recipient'] = $counterpartyData['data'][0]['Ref'];
+        $recipient['Recipient'] = $CounterpartyRef;
         $recipient['ContactRecipient'] = $counterpartyData['data'][0]['ContactPerson']['data'][0]['Ref'];
 
 
@@ -1793,8 +1799,6 @@ class NovaPoshtaApi2 {
         // Full params is merge of arrays $sender, $recipient, $params
 
         $paramsInternetDocument = array_merge($sender, $recipient, $params);
-
-        // Creating new Internet Document
 
         return $this->model('InternetDocument')->save($paramsInternetDocument);
 

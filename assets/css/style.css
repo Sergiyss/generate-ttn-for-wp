@@ -453,3 +453,111 @@ footer img {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 999;
 }
+.modal-content_np {
+    height: 385px;
+}
+
+.modal_np {
+  display: none; /* По умолчанию скрыто */
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4); /* Черный полупрозрачный фон */
+  display: flex; /* Центрируем содержимое по вертикали и горизонтали */
+  justify-content: center;
+  align-items: center;
+}
+
+.contact_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.modal-content_np {
+
+    bottom: 0px;
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+span.close_np.done {
+    width: 200px;
+    height: 40px;
+    border: 1px solid red;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Стили для кнопки закрытия */
+.close_np {
+  color: black;
+  float: right;
+  font-size: 1.3rem;
+  font-weight: bold;
+  transition: .3s all;
+}
+
+select#searchAddressSelect {
+    width: 70%;
+}
+
+
+span.close_np_form {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    border: 1px solid;
+    padding: 1px 5px 1px 5px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+span.close_np_form:hover,
+.close_np:hover {
+  color: white !important;
+  background: tomato;
+}
+
+input#domInput,
+input#streetInput {
+    width: 150px;
+    margin-top: 12px;
+}
+
+h3.title_h3_form {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    color: black;
+    font-family: serif;
+}
+
+input#searchInput {
+    width: 70%;
+    margin-bottom: 4px;
+}
+
+input#domInput {
+    margin-right: 20px;
+}
+
+
+
+
+.close_np:hover,
+.close_np:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

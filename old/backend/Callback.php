@@ -78,7 +78,7 @@ if ($postomatCheckbox == true) {
     );
     $orderData['ServiceType']   = 'WarehousePostomat';
 } else {
-    $orderData['VolumeGeneral'] = $volumetricVolume;
+    //$orderData['VolumeGeneral'] = $volumetricVolume;
     $orderData['ServiceType']   = 'WarehouseWarehouse';
 }
 
@@ -99,7 +99,22 @@ $s_data = json_decode($senderData, true);
 
     $np = new \LisDev\Delivery\NovaPoshtaApi2($apiKey);
 
+    //Нужно камоментить, если будет рефакторинг
     $RecipientWarehouseIndex = $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'][0]['WarehouseIndex'];
+
+    //$listNp =  $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'];
+
+    /**
+     * Рефакторинг, если $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'] возвращает больше чем один адресс, то, нужно проверить на совпадения.
+     * 
+     * Еще не тестировал... 15.03.24
+     * */
+
+    // foreach($listNp as $data){
+    //     if($data['CityRef'] === $getWarehousesNPRef){
+    //         $RecipientWarehouseIndex = $data['WarehouseIndex']
+    //     }
+    // }
 
 
     $fl_name = explode(" ", $firstLastName);
@@ -109,9 +124,9 @@ $s_data = json_decode($senderData, true);
 
     $senderData =  array(
 
-    "SenderWarehouseIndex"  => $getWarehousesNPWarehouseIndex,
-    "RecipientWarehouseIndex"  => $RecipientWarehouseIndex,
-    'SendersPhone' => $senderPhone,
+        "SenderWarehouseIndex"  => $getWarehousesNPWarehouseIndex,
+        "RecipientWarehouseIndex"  => $RecipientWarehouseIndex,
+        'SendersPhone' => $senderPhone,
         'Sender' => $senderRef, 
         'CitySender' => $resultSenderCityRef, 
         'SenderAddress' => $getWarehousesNPRef, 

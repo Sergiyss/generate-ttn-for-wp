@@ -17,8 +17,8 @@ function createTable(){
 		// Определение структуры таблицы
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			order_number varchar(50) NOT NULL,
-			order_link varchar(255) NOT NULL,
+			order_number TEXT NOT NULL,
+			order_link TEXT NOT NULL,
 			order_date date NOT NULL,
 			PRIMARY KEY  (id)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -27,6 +27,15 @@ function createTable(){
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
 	}
+}
+
+function dropTable() {
+    global $wpdb;
+
+    $table_name = getNameTable($wpdb);
+
+    // Удаление таблицы
+    $wpdb->query("DROP TABLE $table_name");
 }
 
 
@@ -70,7 +79,7 @@ function insert_data_base(){
 		// $response = array('status' => 'error', 'message' => '0', 'data' => 'Ошибка при вставке данных');
     	// wp_send_json($response);
 
-    	$response = array('status' => 'error', 'message' => 0, 'data' => 'Ошибка при вставке данных');
+    	$response = array('status' => 'error', 'message' => 0, 'data' => 'Під час запису в базу даних сталася помилка'.$wpdb->last_error.' '.$linkGenerateTTN);
     	echo json_encode($response);
 	} else {
 		$response = array('status' => 'success', 'message' => '0', 'data' => 'success');
@@ -87,13 +96,15 @@ add_action('wp_ajax_nopriv_insert_data_base', 'insert_data_base'); // Неавт
 function get_all_histoty_generate_ttn(){
     global $wpdb;
 
-
+	//dropTable();
+	//createTable();
 	//delete_all_records();
     // Название таблицы с учетом префикса WordPress
     $table_name = $table_name = getNameTable($wpdb);
 
     // Выбор всех данных из таблицы
-    $results = $wpdb->get_results( "SELECT * FROM $table_name LIMIT 50", ARRAY_A);
+    $results = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY id DESC LIMIT 50", ARRAY_A);
+
 
     // Проверка на наличие результатов
     if ( $results ) {

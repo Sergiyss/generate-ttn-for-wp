@@ -50,14 +50,15 @@ $typeDelivery        = $data['typeDelivery'];
 */
 
 $deliveryToAddressCheckbox = $data['deliveryToAddressCheckbox'];
-$RecipientCityName = $data['RecipientCityName'];
-$RecipientArea = $data['RecipientArea'];
-$RecipientAreaRegions = $data['RecipientAreaRegions'];
-$RecipientAddressName = $data['RecipientAddressName'];
-$RecipientHouse = $data['RecipientHouse'];
-$RecipientFlat = $data['RecipientFlat'];
-$RecipientType = $data['RecipientType'];
 
+
+
+
+$np = new \LisDev\Delivery\NovaPoshtaApi2($apiKey);
+
+if ($deliveryToAddressCheckbox != true){
+    $RecipientWarehouseIndex = $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'][0]['WarehouseIndex'];
+}
 
 $orderData = array(
         // Дата отправления
@@ -79,8 +80,21 @@ $orderData = array(
         // Объем груза в куб.м.
 );
 
+// Если доставка на поштомат
 if ($postomatCheckbox == true) {
     // Добавляем OptionsSeat в массив данных заказа
+
+    $senderData =  array(
+        "SenderWarehouseIndex"  => $getWarehousesNPWarehouseIndex,
+        "RecipientWarehouseIndex"  => $RecipientWarehouseIndex,
+        'SendersPhone' => $senderPhone,
+        'Sender' => $senderRef, 
+        'CitySender' => $resultSenderCityRef, 
+        'SenderAddress' => $getWarehousesNPRef, 
+        'ContactSender' => $contactSenderRef,
+        'ServiceType' => 'WarehousePostomat',
+    );
+
     $orderData['OptionsSeat'] = array(
         array(
             'volumetricVolume'    => $volumetricVolume,   
@@ -90,25 +104,42 @@ if ($postomatCheckbox == true) {
             'weight'              => $weight,
         ),
     );
-    $orderData['ServiceType']   = 'WarehousePostomat';
-} else if ($deliveryToAddressCheckbox == true){
-      $orderData['ServiceType']   = 'WarehouseDoors',
-      $orderData['NewAddress'] = '1',
-      $orderData['RecipientCityName'] = $RecipientCityName,
-      $orderData['RecipientArea'] = $RecipientArea,
-      $orderData['RecipientAreaRegions'] = $RecipientAreaRegions,
-      $orderData['RecipientAddressName'] = $RecipientAddressName,
-      $orderData['RecipientHouse'] = $RecipientHouse,
-      $orderData['RecipientFlat'] = $RecipientFlat,
-      $orderData['RecipientName'] = $RecipientName,
-      $orderData['RecipientType'] = $RecipientType,
-      $orderData['SettlementType'] = $SettlementType,
-} else {
-    //$orderData['VolumeGeneral'] = $volumetricVolume;
-    $orderData['ServiceType']   = 'WarehouseWarehouse';
-}
 
+} elseif ($deliveryToAddressCheckbox == true){
+    // //Если доставка к адресу
+    // $senderAddress = $np->getStreet($cityRef, $RecipientAddressName);
+
+    // $senderAddress['data'][0]['Ref']; //Получил Ref адрес улицы
+    
+    $senderData =  array(
+        'SenderWarehouseIndex'  => $getWarehousesNPWarehouseIndex,
+        'RecipientWarehouseIndex'  => null, // в novaPoshtaApi2 будет как ref адреса доставки
+        'SendersPhone' => $senderPhone,
+        'Sender' => $senderRef, 
+        'CitySender' => $resultSenderCityRef, 
+        'SenderAddress' => $getWarehousesNPRef, 
+        'ContactSender' => $contactSenderRef,
+        'SenderAddressRef' => $senderAddress,
+        'ServiceType' => 'WarehouseDoors',
+    );
+
+
+} else {
+    //Если доставка к отделению
+    $senderData =  array(
+        "SenderWarehouseIndex"  => $getWarehousesNPWarehouseIndex,
+        "RecipientWarehouseIndex"  => $RecipientWarehouseIndex,
+        'SendersPhone' => $senderPhone,
+        'Sender' => $senderRef, 
+        'CitySender' => $resultSenderCityRef, 
+        'SenderAddress' => $getWarehousesNPRef, 
+        'ContactSender' => $contactSenderRef,
+        'ServiceType' => 'WarehouseWarehouse',
+    );
+}
+//Если это Накладений платіж
 if($deliveryCheckbox == true){
+
     $orderData['BackwardDeliveryData'] = array(
         array(
             'PayerType'           => 'Recipient',   
@@ -118,15 +149,22 @@ if($deliveryCheckbox == true){
     );
 }
 
+$fl_name = explode(" ", $firstLastName);
+$recipients = array(
+    'FirstName' => $fl_name[1],
+    'MiddleName' => '',
+    'LastName' => $fl_name[0],
+    'RecipientsPhone' => '38'.cleanPhoneNumber($phone),
+    'AddressNP' => $addressNp,
+    'CityRecipient' => $cityRef,
+    'RecipientAddress' => $warehouseRef,
+);
 
-$s_data = json_decode($senderData, true);
 
 
-
-    $np = new \LisDev\Delivery\NovaPoshtaApi2($apiKey);
 
     //Нужно камоментить, если будет рефакторинг
-    $RecipientWarehouseIndex = $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'][0]['WarehouseIndex'];
+    //$RecipientWarehouseIndex = $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'][0]['WarehouseIndex'];
 
     //$listNp =  $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'];
 
@@ -143,35 +181,14 @@ $s_data = json_decode($senderData, true);
     // }
 
 
-    $fl_name = explode(" ", $firstLastName);
 
 
-
-
-    $senderData =  array(
-
-        "SenderWarehouseIndex"  => $getWarehousesNPWarehouseIndex,
-        "RecipientWarehouseIndex"  => $RecipientWarehouseIndex,
-        'SendersPhone' => $senderPhone,
-        'Sender' => $senderRef, 
-        'CitySender' => $resultSenderCityRef, 
-        'SenderAddress' => $getWarehousesNPRef, 
-        'ContactSender' => $contactSenderRef,
-    );
     // Генерирование новой накладной
     $result = $np->newInternetDocument(
     
         $senderData,
         // Данные получателя
-        array(
-            'FirstName' => $fl_name[1],
-            'MiddleName' => '',
-            'LastName' => $fl_name[0],
-            'RecipientsPhone' => '38'.cleanPhoneNumber($phone),
-            'AddressNP' => $addressNp,
-            'CityRecipient' => $cityRef,
-            'RecipientAddress' => $warehouseRef,
-        ),
+        $recipients,
 
         $orderData,
     );

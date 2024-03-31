@@ -132,35 +132,7 @@ function card ($list, $is_active_delivery) {
             </div>
             	<div class="delivery_to_address_block">
 					<div class="delivery_to_address hidden">
-						<p class="info_p">⚠️ Для замовлення на адресу, потрібно перевірити дані. Якщо дані відсутні або не збігаються, необхідно їх виправити ⚠️</p>
-					    <div class=" colums_np">
-				            <div class="decs_input_text">Ідентифікатор міста отримувача </div>
-				            <input class="form_style" id="RecipientCityName" type="string" value="'.$list['city'].'" style="width: 100px; padding: 10px;">
-				        </div>
-				        <div class=" colums_np">
-				            <div class="truncate decs_input_text">Ідентифікатор області </div>
-				            <input class="form_style" id="RecipientArea" type="string" value="" style="width: 100px; padding: 10px;">
-				        </div>
-				        <div class=" colums_np">
-				            <div class="truncate decs_input_text">Ідентифікатор району</div>
-				            <input class="form_style" id="RecipientAreaRegions" type="string" value="" style="width: 100px; padding: 10px;">
-				        </div>
-				        <div class=" colums_np">
-				            <div class="truncate decs_input_text">Ідентифікатор вулиці</div>
-				            <input class="form_style" id="RecipientAddressName" type="string" value="'.$street[0].'" style="width: 100px; padding: 10px;">
-				        </div>
-				        <div class=" colums_np">
-				            <div class="truncate decs_input_text">Ідентифікатор номера будинку</div>
-				            <input class="form_style" id="RecipientHouse" type="string" value="'.$recipientHouse.'" style="width: 100px; padding: 10px;">
-				        </div>
-				        <div class=" colums_np">
-				            <div class="truncate decs_input_text">Ідентифікатор квартири</div>
-				            <input class="form_style" id="RecipientFlat" type="string" value="" style="width: 100px; padding: 10px;">
-				        </div>
-				        <div class=" colums_np">
-				            <div class="truncate decs_input_text" title="Тип отримувача Organization / PrivatePerson (Організація/Приватна особа)">Тип отримувача Organization / PrivatePerson (Організація/Приватна особа)</div>
-				            <input class="form_style" id="RecipientType" type="string" value="PrivatePerson" style="width: 100px; padding: 10px;">
-				        </div>
+						
 					</div>
 				</div>
 

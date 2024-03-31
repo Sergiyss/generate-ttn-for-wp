@@ -31,6 +31,7 @@ function hideLoader() {
 }
 
 
+
 function create_ttn(){
 
     var senderData = document.getElementsByClassName('senderData')[0].textContent
@@ -91,13 +92,7 @@ function create_ttn(){
              * Если доставка на адресс
              * */
             var deliveryToAddressCheckbox  = card.querySelector('#delivery_to_address_block').checked;
-            var RecipientCityName = card.querySelector('#RecipientCityName').value;
-            var RecipientArea = card.querySelector('#RecipientArea').value;
-            var RecipientAreaRegions = card.querySelector('#RecipientAreaRegions').value;
-            var RecipientAddressName = card.querySelector('#RecipientAddressName').value;
-            var RecipientHouse = card.querySelector('#RecipientHouse').value;
-            var RecipientFlat = card.querySelector('#RecipientFlat').value;
-            var RecipientType = card.querySelector('#RecipientType').value;
+
 
 
 
@@ -137,18 +132,14 @@ function create_ttn(){
             numberOfSeats       : number_of_seats,
             typeDelivery        : type_delivery,
             //Если на адресс
-            deliveryToAddressCheckbox : deliveryToAddressCheckbox,
-            RecipientCityName : RecipientCityName,
-            RecipientArea : RecipientArea,
-            RecipientAreaRegions :RecipientAreaRegions,
-            RecipientAddressName :RecipientAddressName,
-            RecipientHouse :RecipientHouse,
-            RecipientFlat :RecipientFlat,
-            RecipientType :RecipientType,
+       
+            deliveryToAddressCheckbox :deliveryToAddressCheckbox,
+            
         };
 
           // Преобразуем объект в JSON
         var jsonData = JSON.stringify(data);
+        
         setTimeout(function() {
             // Отправляем данные на сервер
             var xhr = new XMLHttpRequest();
@@ -193,7 +184,7 @@ function create_ttn(){
     }, index * 500);
     }else{
         if(!card.querySelector("#is_generate_ttn").checked){
-             displayToast('Замовлення #' + id +' було пропущено', 'Bottom Left', types[1])
+            // displayToast('Замовлення #' + id +' було пропущено', 'Bottom Left', types[1])
         }else{
             displayToast('Ви вже створили накладну для #'+id, 'Bottom Left', types[4])
         }

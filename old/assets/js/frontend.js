@@ -50,7 +50,7 @@ function create_ttn(){
       // Получаем данные из каждого элемента "card"
         var id = card.id;
 
-        if(card.querySelector('.ttn_code').textContent === ""){
+        if(card.querySelector('.ttn_code').textContent === "" && card.querySelector("#is_generate_ttn").checked){
 
             var firstLastName = card.querySelector('.first_last_name').textContent;
             var phone = card.querySelector('.phone').textContent;
@@ -62,7 +62,13 @@ function create_ttn(){
             var warehouseRef = card.querySelector('.warehouse_ref').textContent;
         //**Другие настройки доставки*//
             var postomatCheckbox  = card.querySelector('#postomat').checked;
-            var deliveryCheckbox  = card.querySelector('#delivery').checked;
+            
+            var deliveryCheckbox  = card.querySelector('#delivery');
+            if (deliveryCheckbox !== null) {
+                deliveryCheckbox = deliveryCheckbox.checked;
+            } else {
+                deliveryCheckbox = false;
+            }
         /***/
 
             var note_for_order = card.querySelector('#note_for_order').value;
@@ -79,6 +85,19 @@ function create_ttn(){
             var who_pays_for_shipping = card.querySelector('#who_pays_for_shipping').value;
             var number_of_seats = card.querySelector('#number_of_seats').value;
             var type_delivery = card.querySelector('#type_delivery').value;
+
+
+            /**
+             * Если доставка на адресс
+             * */
+            var deliveryToAddressCheckbox  = card.querySelector('#delivery_to_address_block').checked;
+            var RecipientCityName = card.querySelector('#RecipientCityName').value;
+            var RecipientArea = card.querySelector('#RecipientArea').value;
+            var RecipientAreaRegions = card.querySelector('#RecipientAreaRegions').value;
+            var RecipientAddressName = card.querySelector('#RecipientAddressName').value;
+            var RecipientHouse = card.querySelector('#RecipientHouse').value;
+            var RecipientFlat = card.querySelector('#RecipientFlat').value;
+            var RecipientType = card.querySelector('#RecipientType').value;
 
 
 
@@ -117,6 +136,15 @@ function create_ttn(){
             whoPaysForShipping  : who_pays_for_shipping,
             numberOfSeats       : number_of_seats,
             typeDelivery        : type_delivery,
+            //Если на адресс
+            deliveryToAddressCheckbox : deliveryToAddressCheckbox,
+            RecipientCityName : RecipientCityName,
+            RecipientArea : RecipientArea,
+            RecipientAreaRegions :RecipientAreaRegions,
+            RecipientAddressName :RecipientAddressName,
+            RecipientHouse :RecipientHouse,
+            RecipientFlat :RecipientFlat,
+            RecipientType :RecipientType,
         };
 
           // Преобразуем объект в JSON
@@ -145,11 +173,12 @@ function create_ttn(){
                     });
 
                  }
-
+                 //По завершению
                 console.log(cards.length+" >> Last "+index);
-                if (index === cards.length-1) {
-                    inset_data_base_link_generate_ttn()
-                }
+                // if (index === cards.length-1) {
+                //     displayToast('Готово, змінюю статус замовлення', 'Bottom Left', types[3])
+                //     inset_data_base_link_generate_ttn()
+                // }
 
             }else{
                 displayToast('Помилка сервера '+xhr.status, 'Bottom Left', types[5]);
@@ -163,9 +192,12 @@ function create_ttn(){
         xhr.send(jsonData);
     }, index * 500);
     }else{
-      displayToast('Ви вже створили накладну для #'+id, 'Bottom Left', types[4])
-
-  }
+        if(!card.querySelector("#is_generate_ttn").checked){
+             displayToast('Замовлення #' + id +' було пропущено', 'Bottom Left', types[1])
+        }else{
+            displayToast('Ви вже створили накладну для #'+id, 'Bottom Left', types[4])
+        }
+    }
 });
 
 document.querySelector('.loader').style.display = 'none';
@@ -439,6 +471,27 @@ document.addEventListener('DOMContentLoaded', function() {
             var cardId = this.closest('.card').id;
             console.log('ID карточки:', cardId);
 
+
+            if(this.id === "delivery_to_address_block"){
+                if (this.checked) {
+                    // Если чекбокс отмечен
+                    visibleBlock(cardId, true, '.delivery_to_address');
+                } else {
+                    visibleBlock(cardId, false, '.delivery_to_address');
+                }
+            }
+
+
+            if(this.id === "delivery"){
+                if (this.checked) {
+                        // Если чекбокс отмечен
+                    visibleBlock(cardId, true, '.delivery');
+                } else {
+                    visibleBlock(cardId, false, '.delivery');
+                }
+            }
+
+
             if(this.id === "postomat"){
                 if (this.checked) {
                         // Если чекбокс отмечен
@@ -533,10 +586,6 @@ function inset_data_base_link_generate_ttn(){
         xhr.onload = function() {
             if (xhr.status === 200) {
                 const dataArray = JSON.parse(xhr.responseText);
-
-                // if(dataArray.status)
-
-
 
                 if(dataArray.status === "success"){
 

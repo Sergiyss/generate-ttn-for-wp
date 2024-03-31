@@ -256,7 +256,7 @@ a.tab_history{
     justify-content: center;
     margin-right: 10px;
     cursor: pointer;
-    box-shadow: box-shadow: 1px 1px 8px 5px #a50f0f;
+    box-shadow: 1px 1px 8px 5px #a50f0f;
     transition: background-color 0.3s, box-shadow 0.3s; /* Добавляем плавный переход для box-shadow */
 }
 .tab_history a,
@@ -272,6 +272,9 @@ a.tab_history{
     padding-top: 50px; /* Добавить верхний отступ для контента, чтобы избежать перекрытия заголовка */
 }
 
+input#is_generate_ttn {
+    margin-left: 10px;
+}
 
 .row {
     display: flex;
@@ -431,3 +434,22 @@ footer img {
     width: 150px;
 }
 
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+.truncate:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}

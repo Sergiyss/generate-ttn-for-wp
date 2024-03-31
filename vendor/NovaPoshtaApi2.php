@@ -1750,7 +1750,7 @@ class NovaPoshtaApi2 {
 
             $recipientWarehouse = $this->getWarehouse($recipient['CityRecipient'], $recipient['Warehouse']);
 
-            $recipient['RecipientAddress'] = $recipientWarehouse['data'][0]['Ref'];
+           $recipient['RecipientAddress'] = '7c395973-e918-11ee-a60f-48df37b921db';
 
         }
 
