@@ -1756,18 +1756,26 @@ class NovaPoshtaApi2 {
 
         $CounterpartyRef = $counterpartyData['data'][0]['Ref'];
 
-        //$recipient['RecipientAddress'] = $recipient['RecipientAddress'];
+        // //$recipient['RecipientAddress'] = $recipient['RecipientAddress'];
 
-        //Если заказ к двери, то нужно получить адрес доставки
-        if($sender['ServiceType'] === "WarehouseDoors"){
-            $recipient['RecipientAddress'] = $recipient['RecipientAddress'];
-        }else{
+        // //Если заказ к двери, то нужно получить адрес доставки
+        // if($sender['ServiceType'] === "WarehouseDoors"){
+        //     $recipient['RecipientAddress'] = $recipient['RecipientAddress'];
+        // }else{
+        //     // $recipientWarehouse = $this->getWarehouse($recipient['CityRecipient'], $recipient['Warehouse']);
+        //     // if(!empty($recipientWarehouse['data'][0]['Ref'])){
+        //     //     $recipient['RecipientAddress'] = $recipientWarehouse['data'][0]['Ref'];
+        //     // }
+        // }
 
-
+        //Если адресс новой почты или почтомата пуст, только тогда можем запросить поиск отделения
+        if(empty($recipient['RecipientAddress'])) {
             $recipientWarehouse = $this->getWarehouse($recipient['CityRecipient'], $recipient['Warehouse']);
-
-            $recipient['RecipientAddress'] = $recipientWarehouse['data'][0]['Ref'];
+            if(!empty($recipientWarehouse['data'][0]['Ref'])){
+                $recipient['RecipientAddress'] = $recipientWarehouse['data'][0]['Ref'];
+            }
         }
+
 
         
         $recipient['Recipient'] = $CounterpartyRef;
@@ -1800,7 +1808,26 @@ class NovaPoshtaApi2 {
 
         $paramsInternetDocument = array_merge($sender, $recipient, $params);
 
-        return $this->model('InternetDocument')->save($paramsInternetDocument);
+        // $data_arr = array();
+
+        // $data_arr["sender"] = $sender;
+        // $data_arr["recipient"] = $recipient;
+        // $data_arr["params"] = $params;
+
+        // // Сохраняем данные в локальном хранилище 
+        // $json_data = json_encode( $data_arr, JSON_UNESCAPED_UNICODE );
+        // //wp_mail( "serhii.kr93@gmail.com", "Форма заявки 2", "json_data" );
+
+        // $current_directory = __DIR__;
+
+        // // Путь к файлу, в который вы хотите записать данные
+        // $file_path = $current_directory . '/data.json';
+
+        // file_put_contents($file_path, $json_data);
+
+	/***return $paramsInternetDocument;*/
+
+         return $this->model('InternetDocument')->save($paramsInternetDocument);
 
     }
 

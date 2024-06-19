@@ -163,6 +163,25 @@ $recipients = array(
 
 
 
+        // $data_arr = array();
+
+        // $data_arr["senderData"] = $senderData;
+        // $data_arr["recipients"] = $recipients;
+        // $data_arr["orderData"] = $orderData;
+        // $data_arr["warehouseRef"] = $warehouseRef;
+
+        // // Сохраняем данные в локальном хранилище 
+        // $json_data = json_encode( $data_arr, JSON_UNESCAPED_UNICODE );
+        // //wp_mail( "serhii.kr93@gmail.com", "Форма заявки 2", "json_data" );
+
+        // $current_directory = __DIR__;
+
+        // // Путь к файлу, в который вы хотите записать данные
+        // $file_path = $current_directory . '/vendor/data2.json';
+
+        // file_put_contents($file_path, $json_data);
+
+
     //Нужно камоментить, если будет рефакторинг
     //$RecipientWarehouseIndex = $np->setRecipientWarehouseIndex($cityRef, $addressNp)['data'][0]['WarehouseIndex'];
 
